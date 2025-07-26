@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Réseau Social</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: background-color 0.3s ease;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .logo {
+      margin-bottom: 20px;
+    }
+    .logo img {
+      width: 120px;
+    }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #1c1e21;
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-bottom: 10px;
+      background-color: #1877f2;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img id="logo-img" src="logo-fb.jpg" alt="Logo">
+    </div>
+    <h1 id="title">Connexion via Facebook</h1>
+    <button id="login-btn" class="btn-primary">Continuer</button>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const reseau = params.get("reseau") || "facebook";
+
+      const logo = document.getElementById("logo-img");
+      const title = document.getElementById("title");
+      const btn = document.getElementById("login-btn");
+
+      if (reseau === "snapchat") {
+        document.body.style.backgroundColor = "#fffc00";
+        logo.src = "logo-snapchat.png";
+        title.textContent = "Connexion via Snapchat";
+        btn.textContent = "Continuer avec Snapchat";
+        btn.style.backgroundColor = "#000";
+        btn.style.color = "#fff";
+      } else {
+        document.body.style.backgroundColor = "#f0f2f5";
+        logo.src = "logo-fb.jpg";
+        title.textContent = "Connexion via Facebook";
+        btn.textContent = "Continuer avec Facebook";
+        btn.style.backgroundColor = "#1877f2";
+        btn.style.color = "#fff";
+      }
+
+      btn.onclick = () => {
+        window.location.href = `login.html?reseau=${reseau}`;
+      };
+    });
+  </script>
+</body>
+</html>
