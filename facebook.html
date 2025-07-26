@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion Réseau Social</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Connexion Réseau Social</title>
+<style>
     body {
       margin: 0;
       font-family: Helvetica, Arial, sans-serif;
@@ -46,18 +47,18 @@
       background-color: #1877f2;
       color: white;
     }
-  </style>
+  
+  body { font-family: 'Avenir Next', 'Helvetica Neue', sans-serif; }</style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo">
-      <img id="logo-img" src="logo-fb.jpg" alt="Logo">
-    </div>
-    <h1 id="title">Connexion via Facebook</h1>
-    <button id="login-btn" class="btn-primary">Continuer</button>
-  </div>
-
-  <script>
+<div class="container">
+<div class="logo">
+<img alt="Logo" id="logo-img" src="logo-fb.jpg"/>
+</div>
+<h1 id="title">Connexion via Facebook</h1>
+<button class="btn-primary" id="login-btn">Continuer</button>
+<p style="font-size:0.85em; color:#606770; margin-top:15px;">En continuant, tu acceptes les Conditions d'utilisation de Snapchat.</p></div>
+<script>
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const reseau = params.get("reseau") || "facebook";

